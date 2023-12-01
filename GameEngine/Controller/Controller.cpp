@@ -3,6 +3,8 @@
 #include <iostream>
 #include <SDL_events.h>
 #include <SDL_timer.h>
+#include <SDL_ttf.h>
+#include <string>
 
 
 int Controller::GetCookiePoints(const CookieClicker& CC) { return CC.cookiePoints; }
@@ -24,11 +26,26 @@ bool Controller::Victory(CookieClicker& CC)
 
 void Controller::RunGame(CookieClicker& CC, SDL_Renderer* renderer)
 {
+    int ten = 10;
+    std::string text = std::to_string(ten);
+    
+    // load font
+    TTF_Font* font = TTF_OpenFont("font/lazy.ttf", 10);
+    SDL_Color textColor = { 50, 50, 50 };
+     
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect destRect = {50, 50, 200, 200};
+    SDL_FreeSurface(textSurface);
+
+
     SDL_Event e;
     bool quit = false;
+    
     while (quit == false)
     {
         SDL_GetTicks();
+        
 
         while (SDL_PollEvent(&e))
         {
@@ -49,6 +66,10 @@ void Controller::RunGame(CookieClicker& CC, SDL_Renderer* renderer)
                     std::cout << "You win!" << std::endl;
                 break;
             }
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer, textTexture, NULL, &destRect);
+            SDL_RenderPresent(renderer);
+            
         }
 
         SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
@@ -58,4 +79,9 @@ void Controller::RunGame(CookieClicker& CC, SDL_Renderer* renderer)
 
         SDL_Delay(0);
     }
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
+    SDL_DestroyRenderer(renderer);
+    SDL_Quit();
 }

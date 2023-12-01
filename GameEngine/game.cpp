@@ -51,7 +51,7 @@ int main(int argc, char* args[])
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
 	SDL_RenderSetLogicalSize(renderer, 1024, 768);
 
-	/*
+	
 	// // All data related to pikachu
 	// SDL_Texture* pikachu = NULL; // The final optimized image
 	// bool pikachuMoveRight = false;
@@ -80,23 +80,60 @@ int main(int argc, char* args[])
 	// 	//Get rid of old loaded surface
 	// 	SDL_FreeSurface(loadedSurface);
 	// }
+	
 
 	// // load font
-	// auto font = TTF_OpenFont("font/lazy.ttf", 10);
+	// TTF_Font* font = TTF_OpenFont("font/lazy.ttf", 10);
 	// if (font == NULL)
 	// {
 	// 	printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
 	// 	return -1;
 	// }
-	
-	//// create text from font
+	//
+	// //// create text from font
 	// SDL_Color textColor = { 0xff, 0xff, 0xff };
-	//Render text surface
-	// SDL_Texture* textTexture; // The final optimized image
-	
-	// render the text into an unoptimized CPU surface
-	// SDL_Surface* textSurface = TTF_RenderText_Solid(font, "The lazy fox, blah blah", textColor);
+	// //Render text surface
+	// // SDL_Texture* textTexture; // The final optimized image
+	//
+	// // render the text into an unoptimized CPU surface
+	// SDL_Surface* textSurface = TTF_RenderText_Solid(font, "The", textColor);
 	// int textWidth, textHeight;
+	//
+	// SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	//
+	// SDL_FreeSurface(textSurface);
+	//
+	// auto width = textSurface->w;
+	// auto height = textSurface->h;
+	// textWidth = textSurface->w;
+	// textHeight = textSurface->h;
+	// //Get rid of old loaded surface
+	// SDL_FreeSurface(textSurface);
+	//
+	// SDL_Rect destRect = {500, 500, width, height};
+	//
+	// SDL_RenderCopy(renderer, textTexture, NULL, &destRect);
+	
+
+
+	// SDL_Rect targetRectangle{
+	// 	pik_x,
+	// 	pik_y,
+	// 	pik_w,
+	// 	pik_h
+	// };
+	// SDL_RenderCopy(renderer, pikachu, NULL, &targetRectangle);
+	//
+	// // render the text
+	// targetRectangle = SDL_Rect{
+	// 	500,
+	// 	500,
+	// 	textWidth,
+	// 	textHeight
+	// };
+	// SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
+
+	
 	// if (textSurface == NULL)
 	// {
 	// 	printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
@@ -120,7 +157,7 @@ int main(int argc, char* args[])
 	// 	SDL_FreeSurface(textSurface);
 	// }
 
-	*/
+	
 	SDL_Event e;
 	bool quit = false;
 
@@ -131,103 +168,103 @@ int main(int argc, char* args[])
 	View view;
 
 	controller.RunGame(CC, renderer);
-	// while (quit == false)
-	// {
-	// 	SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
-	// 	// loop through all pending events from Windows (OS)
-	// 	while (SDL_PollEvent(&e))
-	// 	{
-	// 		// check, if it's an event we want to react to:
-	// 		switch (e.type) {
-	// 		case SDL_QUIT: { quit = true; } break;
-	// 			// This is an example on how to use input events:
-	// 		/*
-	// 		// case SDL_KEYDOWN:
-	// 		// 	// input example: if left, then make pikachu move left
-	// 		// 	if (e.key.keysym.sym == SDLK_LEFT)
-	// 		// 	{
-	// 		// 		// pikachuMoveRight = false;
-	// 		// 		std::cout << "Left" << std::endl;
-	// 		// 	}
-	// 		// 		
-	// 		// 	// if right, then make pikachu move right
-	// 		// 	if (e.key.keysym.sym == SDLK_RIGHT)
-	// 		// 	{
-	// 		// 		// pikachuMoveRight = true;
-	// 		// 		std::cout << "Right" << std::endl;
-	// 		// 	}
-	// 		// 	
-	// 		// 	break;
-	// 		*/
-	// 			
-	// 		case SDL_MOUSEBUTTONDOWN:
-	// 			controller.AddCookiePoints(CC);
-	// 			std::cout << "Cookies: " << controller.GetCookiePoints(CC) << std::endl;
-	// 			break;
-	// 			
-	// 		case SDL_MOUSEBUTTONUP:
-	// 			quit = controller.Victory(CC);
-	//
-	// 			if (quit)
-	// 				std::cout << "You win!" << std::endl;
-	// 			break;
-	// 		} 
-	// 	}
 
+	/*
+	while (quit == false)
+	{
+		SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
+		// loop through all pending events from Windows (OS)
+		while (SDL_PollEvent(&e))
+		{
+			// check, if it's an event we want to react to:
+			switch (e.type) {
+			case SDL_QUIT: { quit = true; } break;
+				// This is an example on how to use input events:
+			
+			// case SDL_KEYDOWN:
+			// 	// input example: if left, then make pikachu move left
+			// 	if (e.key.keysym.sym == SDLK_LEFT)
+			// 	{
+			// 		// pikachuMoveRight = false;
+			// 		std::cout << "Left" << std::endl;
+			// 	}
+			// 		
+			// 	// if right, then make pikachu move right
+			// 	if (e.key.keysym.sym == SDLK_RIGHT)
+			// 	{
+			// 		// pikachuMoveRight = true;
+			// 		std::cout << "Right" << std::endl;
+			// 	}
+			// 	
+			// 	break;
+			
+				
+			case SDL_MOUSEBUTTONDOWN:
+				controller.AddCookiePoints(CC);
+				std::cout << "Cookies: " << controller.GetCookiePoints(CC) << std::endl;
+				break;
+				
+			case SDL_MOUSEBUTTONUP:
+				quit = controller.Victory(CC);
 	
-	// 	/*
-	// 	// // This is an example for how to check, whether keys are currently pressed:
-	// 	// const Uint8* keystate = SDL_GetKeyboardState(NULL);
-	// 	// if (keystate[SDL_SCANCODE_UP])
-	// 	// {
-	// 	// 	pik_y--;
-	// 	// }
-	// 	// if (keystate[SDL_SCANCODE_DOWN])
-	// 	// {
-	// 	// 	pik_y++;
-	// 	// }
-	// 	//
-	// 	// // our current game logic :)
-	// 	// if (pikachuMoveRight) {
-	// 	// 	pik_x++;
-	// 	// 	if (pik_x > 599) pikachuMoveRight = false;
-	// 	// }
-	// 	// else {
-	// 	// 	pik_x--;
-	// 	// 	if (pik_x < 1) pikachuMoveRight = true;
-	// 	// }
-	// 	*/
-	// 	
-	// 	// clear the screen
-	// 	SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
-	// 	SDL_RenderClear(renderer);
-	//
-	// 	/*
-	// 	// // render Pikachu
-	// 	// SDL_Rect targetRectangle{
-	// 	// 	pik_x,
-	// 	// 	pik_y,
-	// 	// 	pik_w,
-	// 	// 	pik_h
-	// 	// };
-	// 	// SDL_RenderCopy(renderer, pikachu, NULL, &targetRectangle);
-	//
-	// 	// // render the text
-	// 	// targetRectangle = SDL_Rect{
-	// 	// 	500,
-	// 	// 	500,
-	// 	// 	textWidth,
-	// 	// 	textHeight
-	// 	// };
-	// 	// SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
-	// 	*/
-	// 	
-	// 	// present screen (switch buffers)
-	// 	SDL_RenderPresent(renderer);
-	//
-	// 	SDL_Delay(0); // can be used to wait for a certain amount of ms
-	// }
-
+				if (quit)
+					std::cout << "You win!" << std::endl;
+				break;
+			} 
+		}
+	
+	
+		// // This is an example for how to check, whether keys are currently pressed:
+		// const Uint8* keystate = SDL_GetKeyboardState(NULL);
+		// if (keystate[SDL_SCANCODE_UP])
+		// {
+		// 	pik_y--;
+		// }
+		// if (keystate[SDL_SCANCODE_DOWN])
+		// {
+		// 	pik_y++;
+		// }
+		//
+		// // our current game logic :)
+		// if (pikachuMoveRight) {
+		// 	pik_x++;
+		// 	if (pik_x > 599) pikachuMoveRight = false;
+		// }
+		// else {
+		// 	pik_x--;
+		// 	if (pik_x < 1) pikachuMoveRight = true;
+		// }
+		
+		// clear the screen
+		SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
+		SDL_RenderClear(renderer);
+	
+		
+		// // render Pikachu
+		// SDL_Rect targetRectangle{
+		// 	pik_x,
+		// 	pik_y,
+		// 	pik_w,
+		// 	pik_h
+		// };
+		// SDL_RenderCopy(renderer, pikachu, NULL, &targetRectangle);
+	
+		// // render the text
+		// targetRectangle = SDL_Rect{
+		// 	500,
+		// 	500,
+		// 	textWidth,
+		// 	textHeight
+		// };
+		// SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
+		
+		
+		// present screen (switch buffers)
+		SDL_RenderPresent(renderer);
+	
+		SDL_Delay(0); // can be used to wait for a certain amount of ms
+	}
+	*/
 
 	
 	return 0;
