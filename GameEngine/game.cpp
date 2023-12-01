@@ -5,6 +5,10 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include "Controller/Controller.h"
+#include "Model/CookieClicker.h"
+#include "View/View.h"
+
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 1024;
@@ -14,7 +18,6 @@ const int SCREEN_HEIGHT = 768;
 
 int main(int argc, char* args[])
 {
-	
 	//The window we'll be rendering to
 	SDL_Window* window{};
 	SDL_Renderer* renderer; // the window's rendering surface
@@ -25,13 +28,11 @@ int main(int argc, char* args[])
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 	}
-	
 	// initialize SDL_ttf for font loading
 	if (TTF_Init() == -1)
 	{
 		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 	}
-	
 	//Start up SDL and create window
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO))
@@ -39,7 +40,6 @@ int main(int argc, char* args[])
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
-	
 	// Create Window and Renderer
 	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, &window, &renderer);
 	if (!window)
@@ -51,13 +51,14 @@ int main(int argc, char* args[])
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
 	SDL_RenderSetLogicalSize(renderer, 1024, 768);
 
-	// All data related to pikachu
-	SDL_Texture* pikachu = NULL; // The final optimized image
-	bool pikachuMoveRight = false;
-	int pik_x, pik_y;
-	pik_x = pik_y = 0;
-	int pik_w, pik_h;
-	pik_w = pik_h = 200;
+	/*
+	// // All data related to pikachu
+	// SDL_Texture* pikachu = NULL; // The final optimized image
+	// bool pikachuMoveRight = false;
+	// int pik_x, pik_y;
+	// pik_x = pik_y = 0;
+	// int pik_w, pik_h;
+	// pik_w = pik_h = 200;
 	
 	// // Load Pickachu image at specified path
 	// SDL_Surface* loadedSurface = IMG_Load(pikachuImagePath);
@@ -88,8 +89,8 @@ int main(int argc, char* args[])
 	// 	return -1;
 	// }
 	
-	// create text from font
-	SDL_Color textColor = { 0xff, 0xff, 0xff };
+	//// create text from font
+	// SDL_Color textColor = { 0xff, 0xff, 0xff };
 	//Render text surface
 	// SDL_Texture* textTexture; // The final optimized image
 	
@@ -118,103 +119,114 @@ int main(int argc, char* args[])
 	// 	//Get rid of old loaded surface
 	// 	SDL_FreeSurface(textSurface);
 	// }
-	
+
+	*/
 	SDL_Event e;
 	bool quit = false;
 
-	int myCookieCoins = 0;
+	// int myCookieCoins = 0;
 	// while the user doesn't want to quit
-	while (quit == false)
-	{
-		auto integer = SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
+	CookieClicker CC;
+	Controller controller;
+	View view;
 
+	controller.RunGame(CC, renderer);
+	// while (quit == false)
+	// {
+	// 	SDL_GetTicks(); // can be used, to see, how much time in ms has passed since app start
+	// 	// loop through all pending events from Windows (OS)
+	// 	while (SDL_PollEvent(&e))
+	// 	{
+	// 		// check, if it's an event we want to react to:
+	// 		switch (e.type) {
+	// 		case SDL_QUIT: { quit = true; } break;
+	// 			// This is an example on how to use input events:
+	// 		/*
+	// 		// case SDL_KEYDOWN:
+	// 		// 	// input example: if left, then make pikachu move left
+	// 		// 	if (e.key.keysym.sym == SDLK_LEFT)
+	// 		// 	{
+	// 		// 		// pikachuMoveRight = false;
+	// 		// 		std::cout << "Left" << std::endl;
+	// 		// 	}
+	// 		// 		
+	// 		// 	// if right, then make pikachu move right
+	// 		// 	if (e.key.keysym.sym == SDLK_RIGHT)
+	// 		// 	{
+	// 		// 		// pikachuMoveRight = true;
+	// 		// 		std::cout << "Right" << std::endl;
+	// 		// 	}
+	// 		// 	
+	// 		// 	break;
+	// 		*/
+	// 			
+	// 		case SDL_MOUSEBUTTONDOWN:
+	// 			controller.AddCookiePoints(CC);
+	// 			std::cout << "Cookies: " << controller.GetCookiePoints(CC) << std::endl;
+	// 			break;
+	// 			
+	// 		case SDL_MOUSEBUTTONUP:
+	// 			quit = controller.Victory(CC);
+	//
+	// 			if (quit)
+	// 				std::cout << "You win!" << std::endl;
+	// 			break;
+	// 		} 
+	// 	}
 
-		// loop through all pending events from Windows (OS)
-		while (SDL_PollEvent(&e))
-		{
-			// check, if it's an event we want to react to:
-			switch (e.type) {
-			case SDL_QUIT: { quit = true; } break;
-
-				// This is an example on how to use input events:
-			case SDL_KEYDOWN:
-				// input example: if left, then make pikachu move left
-				if (e.key.keysym.sym == SDLK_LEFT)
-				{
-					pikachuMoveRight = false;
-					std::cout << "Left" << std::endl;
-				}
-					
-				// if right, then make pikachu move right
-				if (e.key.keysym.sym == SDLK_RIGHT)
-				{
-					pikachuMoveRight = true;
-					std::cout << "Right" << std::endl;
-				}
-				
-				break;
-				
-			case SDL_MOUSEBUTTONDOWN:
-				myCookieCoins++;
-				std::cout << "Cookies: " << myCookieCoins << std::endl;
-				break;
-			case SDL_MOUSEBUTTONUP:
-				if (myCookieCoins >= 10)
-				{
-					std::cout << "You win!" << std::endl;
-					quit = true;
-				}
-			} 
-		}
 	
-		// This is an example for how to check, whether keys are currently pressed:
-		const Uint8* keystate = SDL_GetKeyboardState(NULL);
-		if (keystate[SDL_SCANCODE_UP])
-		{
-			pik_y--;
-		}
-		if (keystate[SDL_SCANCODE_DOWN])
-		{
-			pik_y++;
-		}
-	
-		// our current game logic :)
-		if (pikachuMoveRight) {
-			pik_x++;
-			if (pik_x > 599) pikachuMoveRight = false;
-		}
-		else {
-			pik_x--;
-			if (pik_x < 1) pikachuMoveRight = true;
-		}
-		
-		// clear the screen
-		SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
-		SDL_RenderClear(renderer);
-		
-		// render Pikachu
-		SDL_Rect targetRectangle{
-			pik_x,
-			pik_y,
-			pik_w,
-			pik_h
-		};
-		SDL_RenderCopy(renderer, pikachu, NULL, &targetRectangle);
-	
-		// // render the text
-		// targetRectangle = SDL_Rect{
-		// 	500,
-		// 	500,
-		// 	textWidth,
-		// 	textHeight
-		// };
-		// SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
-	
-		// present screen (switch buffers)
-		SDL_RenderPresent(renderer);
-	
-		SDL_Delay(0); // can be used to wait for a certain amount of ms
-	}
+	// 	/*
+	// 	// // This is an example for how to check, whether keys are currently pressed:
+	// 	// const Uint8* keystate = SDL_GetKeyboardState(NULL);
+	// 	// if (keystate[SDL_SCANCODE_UP])
+	// 	// {
+	// 	// 	pik_y--;
+	// 	// }
+	// 	// if (keystate[SDL_SCANCODE_DOWN])
+	// 	// {
+	// 	// 	pik_y++;
+	// 	// }
+	// 	//
+	// 	// // our current game logic :)
+	// 	// if (pikachuMoveRight) {
+	// 	// 	pik_x++;
+	// 	// 	if (pik_x > 599) pikachuMoveRight = false;
+	// 	// }
+	// 	// else {
+	// 	// 	pik_x--;
+	// 	// 	if (pik_x < 1) pikachuMoveRight = true;
+	// 	// }
+	// 	*/
+	// 	
+	// 	// clear the screen
+	// 	SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
+	// 	SDL_RenderClear(renderer);
+	//
+	// 	/*
+	// 	// // render Pikachu
+	// 	// SDL_Rect targetRectangle{
+	// 	// 	pik_x,
+	// 	// 	pik_y,
+	// 	// 	pik_w,
+	// 	// 	pik_h
+	// 	// };
+	// 	// SDL_RenderCopy(renderer, pikachu, NULL, &targetRectangle);
+	//
+	// 	// // render the text
+	// 	// targetRectangle = SDL_Rect{
+	// 	// 	500,
+	// 	// 	500,
+	// 	// 	textWidth,
+	// 	// 	textHeight
+	// 	// };
+	// 	// SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
+	// 	*/
+	// 	
+	// 	// present screen (switch buffers)
+	// 	SDL_RenderPresent(renderer);
+	//
+	// 	SDL_Delay(0); // can be used to wait for a certain amount of ms
+	// }
 
 
 	

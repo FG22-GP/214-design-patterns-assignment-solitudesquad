@@ -4,8 +4,6 @@ class Model
 {
 public:
 
-    int parentInt;
-    
     
     
     

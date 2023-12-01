@@ -1,11 +1,12 @@
 ﻿#pragma once
-#include "Model.h"
 
-class CookieClicker : Model
+class CookieClicker
 {
 public:
-
+    const int victoryAmount;
+    int cookiePoints;
+    bool quitGame;
+    
     CookieClicker();
     
-    void CookieIsPressed();
 };

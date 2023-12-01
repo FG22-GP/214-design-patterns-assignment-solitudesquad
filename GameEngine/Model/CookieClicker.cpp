@@ -1,13 +1,5 @@
 ﻿#include "CookieClicker.h"
 
-#include <iostream>
 
-CookieClicker::CookieClicker()
-{
-    parentInt = 5;
-}
+CookieClicker::CookieClicker() : cookiePoints(0), victoryAmount(3), quitGame(false) {}
 
-void CookieClicker::CookieIsPressed()
-{
-    printf("Cookie is pressed");
-}
