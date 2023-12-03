@@ -60,6 +60,7 @@ int main(int argc, char* args[])
 	// int pik_w, pik_h;
 	// pik_w = pik_h = 200;
 	
+	
 	// // Load Pickachu image at specified path
 	// SDL_Surface* loadedSurface = IMG_Load(pikachuImagePath);
 	// if (loadedSurface == NULL)
@@ -163,11 +164,16 @@ int main(int argc, char* args[])
 
 	// int myCookieCoins = 0;
 	// while the user doesn't want to quit
-	CookieClicker CC;
+
+
+
+
+	//TODO Mine optimization
+	CookieClicker cc;
 	Controller controller;
 	View view;
 	
-	controller.RunGame(CC, view);
+	controller.RunGame(cc, view);
 
 
 	

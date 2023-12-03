@@ -80,10 +80,20 @@ void Controller::RunGame(CookieClicker& cc, View& view)
     const SDL_Rect destRect = {400, 250, 200, 200};
     SDL_FreeSurface(textSurface);
 
+    const char* kukiSurpriseImagePath = cc.kukiSurprise;
+    const char* kukiPissedImagePath = cc.kukiPissedOff;
     
+    SDL_Surface* loadedKukiSurpriseSurface = IMG_Load(kukiSurpriseImagePath);
+    SDL_Surface* loadedKukiPissedSurface = IMG_Load(kukiPissedImagePath);
+    const SDL_Texture* kukiSurprise = NULL; // The final optimized image
+    const SDL_Texture* kukiPissed = NULL; // The final optimized image
+
+    kukiSurprise = SDL_CreateTextureFromSurface(renderer, loadedKukiSurpriseSurface);
+    kukiPissed = SDL_CreateTextureFromSurface(renderer, loadedKukiPissedSurface);
+
 
     int cookiePoint = NULL;
-    std::string cookiePointNumber = std::to_string(cookiePoint);
+    std::string cookiePointText = std::to_string(cookiePoint);
     SDL_Event e;
     bool quit = false;
     
@@ -103,11 +113,11 @@ void Controller::RunGame(CookieClicker& cc, View& view)
                 AddCookiePoint(cc);
 
                 cookiePoint = GetCookiePoint(cc);
-                cookiePointNumber = std::to_string(cookiePoint);
-                textSurface = TTF_RenderText_Solid(font, cookiePointNumber.c_str(), textColor);
+                cookiePointText = std::to_string(cookiePoint);
+                textSurface = TTF_RenderText_Solid(font, cookiePointText.c_str(), textColor);
                 textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
-
+                // view.UpdateCookiePointsToScreen(cookiePoint, cookiePointText, textSurface, textTexture); //TODO something with this
                 
                 std::cout << "Cookie point: " << cookiePoint << std::endl;
                 break;
@@ -125,7 +135,7 @@ void Controller::RunGame(CookieClicker& cc, View& view)
             SDL_RenderPresent(renderer);
             
         }
-        textSurface = TTF_RenderText_Solid(font, cookiePointNumber.c_str(), textColor);
+        textSurface = TTF_RenderText_Solid(font, cookiePointText.c_str(), textColor);
         textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
 

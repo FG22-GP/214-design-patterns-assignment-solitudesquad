@@ -7,13 +7,14 @@
 class CookieClicker : Model
 {
 public:
-    const int victoryAmount;
     int cookiePoints;
+    const int victoryAmount;
     bool quitGame;
     const SDL_Color textColor;
     const char* fontFile;
     const int fontSize;
-    
+    const char* kukiSurprise;
+    const char* kukiPissedOff;
 
     CookieClicker();
     

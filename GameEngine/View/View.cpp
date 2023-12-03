@@ -53,3 +53,11 @@ void View::SetupScreen()
 
     
 }
+
+void View::UpdateCookiePointsToScreen(int cookiePoint, std::string cookiePointText, SDL_Surface* textSurface, SDL_Texture* textTexture)
+{
+    // cookiePoint = GetCookiePoint(cc);
+    // cookiePointText = std::to_string(cookiePoint);
+    // textSurface;
+    // textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+}
