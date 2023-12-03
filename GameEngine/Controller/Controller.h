@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <SDL_render.h>
 
 #include "../Model/CookieClicker.h"
 #include "../View/View.h"
@@ -9,15 +8,13 @@ class Controller
 {
 public:
     
-    CookieClicker cookieClicker;
-    // View view;
     
-    void SetCookiePoints(int CP);
-    int GetCookiePoints(const CookieClicker& CC);
-    int AddCookiePoints(CookieClicker& CC);
-    bool Victory(CookieClicker& CC);
+    // void SetCookiePoints(int CP);
+    int GetCookiePoint(const CookieClicker& CC);
+    int AddCookiePoint(CookieClicker& CC);
+    bool Victory(const CookieClicker& CC);
 
-    void RunGame(CookieClicker& CC, SDL_Renderer* renderer);
-    // bool quitGame = false;
+    // void RunGame(CookieClicker& CC, SDL_Renderer* renderer);
+    void RunGame(CookieClicker& cc, View& view);
     
 };

@@ -1,16 +1,14 @@
 ﻿#pragma once
-#include "../Controller/Controller.h"
+#include <SDL_render.h>
 
 class View
 {
 public:
 
-    int updatedCookiePoints = 0;
-    // Controller controller;
-    
-    int GetUpdatedCookiePoints();
+    View();
+    void SetupScreen();
 
-    
-    
+    SDL_Renderer* renderer; // the window's rendering surface
+
     
 };
