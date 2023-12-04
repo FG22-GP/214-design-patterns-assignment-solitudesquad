@@ -31,12 +31,14 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Model\CookieClicker.cpp" />
     <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="Observer\Observer.cpp" />
     <ClCompile Include="View\View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="Model\CookieClicker.h" />
     <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="Observer\Observer.h" />
     <ClInclude Include="View\View.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

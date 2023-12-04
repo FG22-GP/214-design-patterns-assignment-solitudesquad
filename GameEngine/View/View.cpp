@@ -48,13 +48,13 @@ void View::SetupScreen()
     }
     
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
-    SDL_RenderSetLogicalSize(renderer, 1024, 768);
+    SDL_RenderSetLogicalSize(renderer, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
     
 }
 
-void View::UpdateCookiePointsToScreen(int cookiePoint, std::string cookiePointText, SDL_Surface* textSurface, SDL_Texture* textTexture)
+void View::UpdateKukiPointsToScreen(int cookiePoint, std::string cookiePointText, SDL_Surface* textSurface, SDL_Texture* textTexture)
 {
     // cookiePoint = GetCookiePoint(cc);
     // cookiePointText = std::to_string(cookiePoint);
