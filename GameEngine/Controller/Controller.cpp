@@ -7,10 +7,12 @@
 #include <SDL_ttf.h>
 #include <string>
 
+#include "../Observer/NewDirectory1/Observer.h"
 
-int Controller::GetKukiPoint(const CookieClicker& CC) { return CC.kukiPoints; }
 
-int Controller::AddKukiPoint(CookieClicker& CC)
+int Controller::GetKukiPoint(const KukiClicker& CC) { return CC.kukiPoints; }
+
+int Controller::AddKukiPoint(KukiClicker& CC)
 {
     int CP = GetKukiPoint(CC);
     CP++;
@@ -18,47 +20,47 @@ int Controller::AddKukiPoint(CookieClicker& CC)
     return CP;
 }
 
-bool Controller::Victory(const CookieClicker& CC)
+bool Controller::Victory(const KukiClicker& CC)
 {
     const int victoryCP = GetKukiPoint(CC);
-    
     return (victoryCP >= CC.victoryAmount);
 }
 
-void Controller::RunGame(CookieClicker& cc, View& view)
+void Controller::RunGame(KukiClicker& cc, View& view)
 {
 
     view.SetupScreen();
-    
+
+    //My observer to check how many clicks
+    KukiClicker *ccSubject = new KukiClicker;
+    Observer *observer = new Observer(*ccSubject);
+
     const auto renderer = view.renderer;
     
     // load font
     TTF_Font* font = TTF_OpenFont(cc.fontFile, cc.fontSize);
     const SDL_Color textColor = cc.textColor;
     
-    SDL_Texture* textTexture = NULL;
-    SDL_Surface* textSurface = NULL;
-
-    textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Surface* textSurface = nullptr;
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_FreeSurface(textSurface);
 
-    const char* kukiSurpriseImagePath = cc.kukiSurprise;
+    const char* pikachuImagePath{ "img/pikachu.png" };
     // Load Pickachu image at specified path
+    const char* kukiSurpriseImagePath = cc.kukiSurprise;
     SDL_Surface* loadedKukiSurpriseSurface = IMG_Load(kukiSurpriseImagePath);
     SDL_Texture* kukiSurprise = SDL_CreateTextureFromSurface(renderer, loadedKukiSurpriseSurface);
     //Get rid of old loaded surface
     SDL_FreeSurface(loadedKukiSurpriseSurface);
 
-    int cookiePoint = 0;
-    std::string cookiePointText = std::to_string(cookiePoint);
+    int kukiPoint = 0;
+    std::string kukiPointText = std::to_string(kukiPoint);
     
     SDL_Event e;
     bool quit = false;
-    
-    while (quit == false)
+    while (!quit)
     {
         SDL_GetTicks();
-        
 
         while (SDL_PollEvent(&e))
         {
@@ -70,14 +72,13 @@ void Controller::RunGame(CookieClicker& cc, View& view)
             case SDL_MOUSEBUTTONDOWN:
                 AddKukiPoint(cc);
 
-                cookiePoint = GetKukiPoint(cc);
-                cookiePointText = std::to_string(cookiePoint);
-                textSurface = TTF_RenderText_Solid(font, cookiePointText.c_str(), textColor);
+                ccSubject->IncrementCounter();
+                kukiPoint = GetKukiPoint(cc);
+                kukiPointText = std::to_string(kukiPoint);
+                textSurface = TTF_RenderText_Solid(font, kukiPointText.c_str(), textColor);
                 textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-                // view.UpdateCookiePointsToScreen(cookiePoint, cookiePointText, textSurface, textTexture); //TODO something with this
                 
-                std::cout << "Kuki point: " << cookiePoint << std::endl;
+                // std::cout << "Kuki point: " << kukiPoint << std::endl;
                 break;
                 
             case SDL_MOUSEBUTTONUP:
@@ -95,8 +96,8 @@ void Controller::RunGame(CookieClicker& cc, View& view)
         
         SDL_RenderClear(renderer);
         
-        SDL_Rect targetRectangle = {0, 0, 200, 200};
-        SDL_RenderCopy(renderer, textTexture, NULL, &targetRectangle);
+        SDL_Rect textRectangle = {0, 0, 200, 200};
+        SDL_RenderCopy(renderer, textTexture, NULL, &textRectangle);
         
         SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
         SDL_Rect imageRectangle{300,350,200,200};
@@ -112,4 +113,11 @@ void Controller::RunGame(CookieClicker& cc, View& view)
     TTF_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
+
+    observer->RemoveMeFromTheList();
+    
+    delete observer;
+    delete ccSubject;
+
+    SDL_Delay(5);
 }

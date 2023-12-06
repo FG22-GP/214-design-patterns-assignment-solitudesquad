@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../Model/CookieClicker.h"
+#include "..\Model\KukiClicker.h"
 #include "../View/View.h"
 
 // class CookieClicker;
@@ -10,11 +10,11 @@ public:
     
     
     // void SetCookiePoints(int CP);
-    int GetKukiPoint(const CookieClicker& CC);
-    int AddKukiPoint(CookieClicker& CC);
-    bool Victory(const CookieClicker& CC);
+    int GetKukiPoint(const KukiClicker& CC);
+    int AddKukiPoint(KukiClicker& CC);
+    bool Victory(const KukiClicker& CC);
 
     // void RunGame(CookieClicker& CC, SDL_Renderer* renderer);
-    void RunGame(CookieClicker& cc, View& view);
+    void RunGame(KukiClicker& cc, View& view);
     
 };
