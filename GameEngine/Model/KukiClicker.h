@@ -2,8 +2,7 @@
 #include <list>
 #include <SDL_pixels.h>
 #include "Model.h"
-#include "../Observer/Observers.h"
-#include "../Observer/NewDirectory1/Subject.h"
+#include "../Observer/Subject.h"
 
 // controller ->  model
 // click      ->  model.cookies++

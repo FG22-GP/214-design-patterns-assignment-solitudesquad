@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "IObserver.h"
-#include "../../Model/KukiClicker.h"
+#include "../Model/KukiClicker.h"
 
 class Observer : public IObserver {
 public:
     Observer(KukiClicker &cc) : cc(cc)
     {
         this->cc.Attach(this);
-        std::cout << "Hi, I'm the Observer" << ++Observer::static_number_ << "\n";
+        std::cout << "Observer" << ++Observer::static_number_ << " created\n";
         this->number_ = Observer::static_number_;
     }
 
