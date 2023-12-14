@@ -22,6 +22,9 @@ There is not much to say about the View class. Because all it does is showcasing
 
 
 Gameplay showcases. It only ever reaches to 6 clicks.
+![image](https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/assets/14058950/63390ded-7d04-48ae-9fed-e72ea00efeed)
+![image](https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/assets/14058950/bda2122b-2243-4e4f-a0cf-12a68f91c2bd)
+
 
 ![KukiClickerGameGif](https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/assets/14058950/e3eb2d05-aafe-41b1-8554-d85f6e7d1593)
 
