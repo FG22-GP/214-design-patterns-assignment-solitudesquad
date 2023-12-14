@@ -11,19 +11,20 @@ class Controller
 {
 public:
     SDL_Texture* TextTexture;
-    
+    SDL_Event event;
+
+    void HandlesEvent(SDL_Event Event) { event = Event; }
     // void SetCookiePoints(int CP);
-    int GetKukiPoint(const KukiClicker& CC);
-    int AddKukiPoint(KukiClicker& CC);
-    bool Victory(const KukiClicker& CC);
+    int GetKukiPoint(const KukiClickerModel& CC);
+    int AddKukiPoint(KukiClickerModel& CC);
+    bool Victory(const KukiClickerModel& CC);
     
-    void ClickEvent(SDL_Event& e, bool& quit, KukiClicker& cc, KukiClicker* ccSubject,
-                    int& kukiPoint, std::string& kukiPointText, TTF_Font* font,
-                    const SDL_Color textColor, SDL_Surface* textSurface,
-                    SDL_Texture* textTexture);
+    void ClickEvent(SDL_Event& e, bool& quit, KukiClickerModel& cc, KukiClickerModel* ccSubject, SDL_Renderer* renderer, SDL_Texture*
+                    kukiSurprise);
 
     void SetTextTexture(SDL_Texture* textTexture);
     SDL_Texture* GetTextTexture() const;
+
     
     
     

@@ -14,10 +14,10 @@
 // ctr.click() -> model.cookies++ -> notifyobserver -> update label
 
 
-class KukiClicker : ISubject, Model
+class KukiClickerModel : ISubject, Model
 {
 public:
-    KukiClicker() :
+    KukiClickerModel() :
     kukiPoints(0),
     victoryAmount(6),
     quitGame(false),
@@ -28,7 +28,6 @@ public:
     kukiPissedOff("img/kukishinobu-pissed.png"),
     cookieImage("cookie-clicker_Icon.png")
     {}
-
 
     int kukiPoints;
     const int victoryAmount;
@@ -57,6 +56,8 @@ public:
         std::cout << "Counter incremented. New Value: " << counter_ << "\n";
         NotifyCounter();
     }
+
+    int GetCounter() { return counter_; }
 
     void NotifyCounter() override
     {

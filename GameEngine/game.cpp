@@ -11,11 +11,10 @@ void TestObserverCode();
 
 int main(int argc, char* args[])
 {
-	// TestObserverCode();
 	
 	//TODO optimization
 	Controller controller;
-	KukiClicker cc;
+	KukiClickerModel cc;
 	View view;
 	
 	view.RunGame(cc, controller);
@@ -29,7 +28,7 @@ void TestObserverCode() {
 	// Subject *subject = new Subject;
 	// Observer *observer1 = new Observer(*subject);
 
-	KukiClicker *cc = new KukiClicker;
+	KukiClickerModel *cc = new KukiClickerModel;
 	Observer *observer = new Observer(*cc);
 
 	cc->IncrementCounter();

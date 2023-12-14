@@ -12,9 +12,9 @@
 #include "../View/View.h"
 
 
-int Controller::GetKukiPoint(const KukiClicker& CC) { return CC.kukiPoints; }
+int Controller::GetKukiPoint(const KukiClickerModel& CC) { return CC.kukiPoints; }
 
-int Controller::AddKukiPoint(KukiClicker& CC)
+int Controller::AddKukiPoint(KukiClickerModel& CC)
 {
     int CP = GetKukiPoint(CC);
     CP++;
@@ -22,7 +22,7 @@ int Controller::AddKukiPoint(KukiClicker& CC)
     return CP;
 }
 
-bool Controller::Victory(const KukiClicker& CC)
+bool Controller::Victory(const KukiClickerModel& CC)
 {
     const int victoryCP = GetKukiPoint(CC);
     return (victoryCP >= CC.victoryAmount);
@@ -39,39 +39,32 @@ SDL_Texture* Controller::GetTextTexture() const
     return TextTexture;
 }
 
-void Controller::ClickEvent(SDL_Event& e, bool& quit, KukiClicker& cc, KukiClicker* ccSubject,
-                    int& kukiPoint, std::string& kukiPointText, TTF_Font* font,
-                    const SDL_Color textColor, SDL_Surface* textSurface,
-                    SDL_Texture* textTexture)
+void Controller::ClickEvent(SDL_Event& e, bool& quit, KukiClickerModel& cc, KukiClickerModel* ccSubject,
+    SDL_Renderer* renderer, SDL_Texture* kukiSurprise)
 {
-    View view;
-    while (SDL_PollEvent(&e))
+    switch (e.type)
     {
-        switch (e.type)
-        {
-        case SDL_QUIT: { quit = true; }
-            break;
+    case SDL_QUIT: { quit = true; }
+        break;
 
-        case SDL_MOUSEBUTTONDOWN:
-            AddKukiPoint(cc);
-
-            ccSubject->IncrementCounter();
-            kukiPoint = GetKukiPoint(cc);
-            kukiPointText = std::to_string(kukiPoint);
-            textSurface = TTF_RenderText_Solid(font, kukiPointText.c_str(), textColor);
-            textTexture = SDL_CreateTextureFromSurface(view.renderer, textSurface);
-            SetTextTexture(textTexture);
+    case SDL_MOUSEBUTTONDOWN:
+        //This is not. But still wanted to keep it.
+        AddKukiPoint(cc);
+        //This is the observer pattern
+        ccSubject->IncrementCounter();
+        break;
             
-            // std::cout << "Kuki point: " << kukiPoint << std::endl;
-            break;
-                
-        case SDL_MOUSEBUTTONUP:
-            quit = Victory(cc);
-            // view.SetQuit(quit);
-            if (quit)
-                std::cout << "You win!\n";
-            break;
-        }
+    case SDL_MOUSEBUTTONUP:
+        quit = Victory(cc);
+        if (quit)
+            std::cout << "You win!\n";
+        break;
+
+    // case SDL_MOUSEMOTION:
+    //     SDL_Rect imageRectangle{300,350,400,400};
+    //     SDL_RenderCopy(renderer, kukiSurprise, NULL, &imageRectangle);
+    //     // SDL_Delay(10000);
+    //     break;
     }
 }
 

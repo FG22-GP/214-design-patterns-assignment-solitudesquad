@@ -54,12 +54,44 @@ void View::SetupScreen()
     
 }
 
-void View::RunGame(KukiClicker& cc, Controller& controller)
+void View::RenderOnScreen(SDL_Renderer* renderer, SDL_Texture* textTexture, SDL_Texture* kukiSurprise)
+{
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
+
+    // cookieView.render()
+    SDL_Rect textRectangle = {0, 0, 200, 200};
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRectangle);
+        
+
+    SDL_Rect imageRectangle{300,350,200,200};
+    SDL_RenderCopy(renderer, kukiSurprise, NULL, &imageRectangle);
+        
+        
+    SDL_RenderPresent(renderer);
+
+    //TODO Play around with the frames (FPS)?
+    SDL_Delay(0);
+}
+
+SDL_Texture* View::OnSwapImage(KukiClickerModel* ccSubject, SDL_Texture* kukiPissedOff, SDL_Texture* kukiSurprise)
+{
+    if (ccSubject->GetCounter() >= 3)
+    {
+        return kukiPissedOff;
+    }
+    else
+    {
+        return kukiSurprise;
+    }
+}
+
+void View::RunGame(KukiClickerModel& cc, Controller& controller)
 {
     SetupScreen();
 
     //My observer to check how many clicks
-    KukiClicker *ccSubject = new KukiClicker;
+    KukiClickerModel *ccSubject = new KukiClickerModel;
     Observer *observer = new Observer(*ccSubject);
 
     
@@ -71,8 +103,12 @@ void View::RunGame(KukiClicker& cc, Controller& controller)
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_FreeSurface(textSurface);
 
-    const char* pikachuImagePath{ "img/pikachu.png" };
-    // Load Pickachu image at specified path
+    // Load Pikachu image at specified path
+    const char* kukiPissedOffImagePath{ cc.kukiPissedOff };
+    SDL_Surface* loadedKukiPissedOffSurface = IMG_Load(kukiPissedOffImagePath);
+    SDL_Texture* kukiPissedOff = SDL_CreateTextureFromSurface(renderer, loadedKukiPissedOffSurface);
+    SDL_FreeSurface(loadedKukiPissedOffSurface);
+
     const char* kukiSurpriseImagePath = cc.kukiSurprise;
     SDL_Surface* loadedKukiSurpriseSurface = IMG_Load(kukiSurpriseImagePath);
     SDL_Texture* kukiSurprise = SDL_CreateTextureFromSurface(renderer, loadedKukiSurpriseSurface);
@@ -81,61 +117,39 @@ void View::RunGame(KukiClicker& cc, Controller& controller)
 
     int kukiPoint = 0;
     std::string kukiPointText = std::to_string(kukiPoint);
+
+    
+    // model
+    // view(model)
+    // controller(model)
     
     SDL_Event e;
+    // controller.HandlesEvent(e);
+    
     bool quit = false;
     while (!quit)
     {
         SDL_GetTicks();
-
-        // controller.ClickEvent(e, quit, cc, ccSubject, kukiPoint,
-        //     kukiPointText, font, textColor, textSurface, textTexture);
-        
         while (SDL_PollEvent(&e))
         {
-            switch (e.type)
-            {
-            case SDL_QUIT: { quit = true; }
-                break;
+            controller.ClickEvent(e, quit, cc, ccSubject, renderer, kukiSurprise);
+            
+            // cookieController.handleInput //TODO Marc wrote this comment
+            
+            textTexture = OnCounterChanged(controller, cc, kukiPoint,
+                kukiPointText, font, textColor, textSurface, textTexture);
 
-            case SDL_MOUSEBUTTONDOWN:
-                controller.AddKukiPoint(cc);
+            kukiSurprise = OnSwapImage(ccSubject, kukiPissedOff, kukiSurprise);
 
-                ccSubject->IncrementCounter();
-                kukiPoint = controller.GetKukiPoint(cc);
-                kukiPointText = std::to_string(kukiPoint);
-                textSurface = TTF_RenderText_Solid(font, kukiPointText.c_str(), textColor);
-                textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-                
-                controller.SetTextTexture(textTexture);
-                // std::cout << "Kuki point: " << kukiPoint << std::endl;
-                break;
-                
-            case SDL_MOUSEBUTTONUP:
-                quit = controller.Victory(cc);
-
-                if (quit)
-                    std::cout << "You win!\n";
-                break;
-            }
         }
         
         // textTexture = controller.GetTextTexture(); //TODO why is this crashing the while loop?
-        
-        SDL_RenderClear(renderer);
-        
-        SDL_Rect textRectangle = {0, 0, 200, 200};
-        SDL_RenderCopy(renderer, textTexture, NULL, &textRectangle);
-        
-        SDL_SetRenderDrawColor(renderer, 61, 255, 224, 255);
-        SDL_Rect imageRectangle{300,350,200,200};
-        SDL_RenderCopy(renderer, kukiSurprise, NULL, &imageRectangle);
-        
-        
-        SDL_RenderPresent(renderer);
+        RenderOnScreen(renderer, textTexture, kukiSurprise);
 
-        SDL_Delay(0);
+        // //TODO Play around with the frames (FPS)?
+        // SDL_Delay(0);
     }
+    SDL_Delay(1000);
     SDL_DestroyTexture(textTexture);
     TTF_CloseFont(font);
     TTF_Quit();
@@ -147,15 +161,18 @@ void View::RunGame(KukiClicker& cc, Controller& controller)
     delete observer;
     delete ccSubject;
 
-    SDL_Delay(5);
-    
-    
+
+
 }
 
-// void View::UpdateKukiPointsToScreen(int cookiePoint, std::string cookiePointText, SDL_Surface* textSurface, SDL_Texture* textTexture)
-// {
-//     cookiePoint = GetCookiePoint(cc);
-//     cookiePointText = std::to_string(cookiePoint);
-//     textSurface;
-//     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-// }
+SDL_Texture* View::OnCounterChanged(Controller& controller, KukiClickerModel& cc 
+    ,int kukiPoint, std::string kukiPointText, TTF_Font* font, const SDL_Color textColor
+    ,SDL_Surface* textSurface, SDL_Texture* textTexture)
+{
+    kukiPoint = controller.GetKukiPoint(cc);
+    kukiPointText = std::to_string(kukiPoint);
+    textSurface = TTF_RenderText_Solid(font, kukiPointText.c_str(), textColor);
+    return textTexture = SDL_CreateTextureFromSurface(renderer, textSurface); 
+}
+
+

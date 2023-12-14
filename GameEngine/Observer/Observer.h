@@ -4,7 +4,7 @@
 
 class Observer : public IObserver {
 public:
-    Observer(KukiClicker &cc) : cc(cc)
+    Observer(KukiClickerModel &cc) : cc(cc)
     {
         this->cc.Attach(this);
         std::cout << "Observer" << ++Observer::static_number_ << " created\n";
@@ -33,6 +33,6 @@ private:
     static int static_number_;
     int number_;
 
-    KukiClicker &cc;
+    KukiClickerModel &cc;
     int counter_from_CC_ = 0;
 };
