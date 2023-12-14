@@ -119,12 +119,7 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
     std::string kukiPointText = std::to_string(kukiPoint);
 
     
-    // model
-    // view(model)
-    // controller(model)
-    
     SDL_Event e;
-    // controller.HandlesEvent(e);
 
     Uint32 lastFrameTime = 0;
     const int FPS = 60;
@@ -143,8 +138,6 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
         while (SDL_PollEvent(&e))
         {
             controller.ClickEvent(e, quit, cc, ccSubject, renderer, kukiSurprise);
-            
-            // cookieController.handleInput //TODO Marc wrote this comment
             
             textTexture = OnCounterChanged(controller, cc, kukiPoint,
                 kukiPointText, font, textColor, textSurface, textTexture);
