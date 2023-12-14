@@ -125,11 +125,21 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
     
     SDL_Event e;
     // controller.HandlesEvent(e);
+
+    Uint32 lastFrameTime = 0;
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
     
     bool quit = false;
     while (!quit)
     {
-        SDL_GetTicks();
+        Uint32 currentFrameTime = SDL_GetTicks();
+        float deltaTime = (currentFrameTime - lastFrameTime) / 1000.0;
+        lastFrameTime = currentFrameTime;
+        GetDeltaTime(deltaTime);
+
+        //TODO find some use case for DeltaTime
+        // std::cout << "DeltaTime: " << GetDeltaTime(deltaTime) << std::endl;
         while (SDL_PollEvent(&e))
         {
             controller.ClickEvent(e, quit, cc, ccSubject, renderer, kukiSurprise);
@@ -140,15 +150,22 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
                 kukiPointText, font, textColor, textSurface, textTexture);
 
             kukiSurprise = OnSwapImage(ccSubject, kukiPissedOff, kukiSurprise);
-
         }
         
-        // textTexture = controller.GetTextTexture(); //TODO why is this crashing the while loop?
         RenderOnScreen(renderer, textTexture, kukiSurprise);
-
+        // Frame rate control
+        Uint32 frameStart = SDL_GetTicks();
+        int frameTime = frameStart - currentFrameTime;
+        if (frameDelay > frameTime)
+        {
+            SDL_Delay(frameDelay - frameTime);
+        }
+        
         // //TODO Play around with the frames (FPS)?
         // SDL_Delay(0);
     }
+
+    //Destroys all assets
     SDL_Delay(1000);
     SDL_DestroyTexture(textTexture);
     TTF_CloseFont(font);
@@ -161,8 +178,6 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
     delete observer;
     delete ccSubject;
 
-
-
 }
 
 SDL_Texture* View::OnCounterChanged(Controller& controller, KukiClickerModel& cc 
@@ -174,5 +189,6 @@ SDL_Texture* View::OnCounterChanged(Controller& controller, KukiClickerModel& cc
     textSurface = TTF_RenderText_Solid(font, kukiPointText.c_str(), textColor);
     return textTexture = SDL_CreateTextureFromSurface(renderer, textSurface); 
 }
+
 
 

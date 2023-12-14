@@ -1,13 +1,4 @@
 ﻿#include "Controller.h"
-
-// #include <iostream>
-// #include <SDL_events.h>
-// #include <SDL_image.h>
-// #include <SDL_timer.h>
-// #include <SDL_ttf.h>
-// #include <string>
-
-
 #include "../Observer/Observer.h"
 #include "../View/View.h"
 

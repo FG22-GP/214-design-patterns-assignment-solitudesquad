@@ -2,11 +2,8 @@
 
 #include <SDL_events.h>
 #include <SDL_ttf.h>
-
 #include "../Model/KukiClicker.h"
-// #include "../View/View.h"
 
-// class CookieClicker;
 class Controller
 {
 public:
@@ -14,7 +11,6 @@ public:
     SDL_Event event;
 
     void HandlesEvent(SDL_Event Event) { event = Event; }
-    // void SetCookiePoints(int CP);
     int GetKukiPoint(const KukiClickerModel& CC);
     int AddKukiPoint(KukiClickerModel& CC);
     bool Victory(const KukiClickerModel& CC);
@@ -24,8 +20,6 @@ public:
 
     void SetTextTexture(SDL_Texture* textTexture);
     SDL_Texture* GetTextTexture() const;
-
-    
     
     
 

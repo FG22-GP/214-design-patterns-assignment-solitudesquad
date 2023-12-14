@@ -41,10 +41,12 @@ public:
     SDL_Texture* OnCounterChanged(Controller& controller,
                                   KukiClickerModel& cc, int kukiPoint, std::string kukiPointText, TTF_Font* font, const SDL_Color textColor, SDL_Surface*
                                   textSurface, SDL_Texture* textTexture);
+    float GetDeltaTime(float deltaTime) { return DeltaTime = deltaTime; }
     
     SDL_Renderer* renderer; // the window's rendering surface
     // bool SetQuit(bool Quit){ return quit = Quit; }
 
     // bool quit;
-    
+private:
+    float DeltaTime;
 };
