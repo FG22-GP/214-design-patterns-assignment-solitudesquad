@@ -15,3 +15,5 @@ Then I use ccSubject variable to update the counter within the controller class 
 
 As you saw in the Observer class contructor. I attached it with a list of observers within KukiClickerModel class 
 https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/d1cf54b7745222fae615eda66b6a7c549226eefd/GameEngine/Model/KukiClicker.h#L43-L46 
+
+Whenever I update the number of counter/clicks I notify the observer https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/d1cf54b7745222fae615eda66b6a7c549226eefd/GameEngine/Model/KukiClicker.h#L53-L71
