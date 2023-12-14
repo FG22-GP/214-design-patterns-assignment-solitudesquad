@@ -12,3 +12,6 @@ Here I am initilizing a new KukiClicker class within Observer class at the start
 
 Then I use ccSubject variable to update the counter within the controller class as it handles the player inputs. 
 [https://github.com/FG22-GP/214-design-patterns-assignmentsolitudesquad/blob/b07b79bcde2be36a294957d1309ff0270af66c4d/GameEngine/Controller/Controller.cpp#L41C1-L46C15](https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/48e281dc926a13c3429bbabba8daba3d09202a72/GameEngine/Controller/Controller.cpp#L41-L46)https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/48e281dc926a13c3429bbabba8daba3d09202a72/GameEngine/Controller/Controller.cpp#L41-L46
+
+As you saw in the Observer class contructor. I attached it with a list of observers within KukiClickerModel class 
+https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/d1cf54b7745222fae615eda66b6a7c549226eefd/GameEngine/Model/KukiClicker.h#L43-L46 
