@@ -19,3 +19,6 @@ https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/d1c
 Whenever I update the number of counter/clicks I notify the observer https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/d1cf54b7745222fae615eda66b6a7c549226eefd/GameEngine/Model/KukiClicker.h#L53-L71
 
 There is not much to say about the View class. Because all it does is showcasing the things the players sees on the screen. It Render two images at different points of clicks. And has a strange font resolution that displays the amount of clicks. Full RunGame method in View class https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/blob/6646d723edd6f2ea9fc600f8b009aaac03b99e2f/GameEngine/View/View.cpp#L89
+
+![KukiClickerGameFig](https://github.com/FG22-GP/214-design-patterns-assignment-solitudesquad/assets/14058950/8b8f0de5-f9a4-4008-b122-437a00c8224a)
+
