@@ -18,7 +18,6 @@ class KukiClickerModel : ISubject, Model
 {
 public:
     KukiClickerModel() :
-    kukiPoints(0),
     victoryAmount(6),
     quitGame(false),
     textColor(50, 50, 50),
@@ -29,7 +28,6 @@ public:
     cookieImage("cookie-clicker_Icon.png")
     {}
 
-    int kukiPoints;
     const int victoryAmount;
     bool quitGame;
     const SDL_Color textColor;
@@ -57,16 +55,12 @@ public:
         NotifyCounter();
     }
 
-    int GetCounter() { return counter_; }
+    int GetCounter() const { return counter_; }
 
     void NotifyCounter() override
     {
-        std::list<IObserver *>::iterator iterator = list_observer_.begin();
-        // HowManyObserver();
-        while (iterator != list_observer_.end())
-        {
-            (*iterator)->UpdateCounter(counter_);
-            ++iterator;
+        for (auto observer : list_observer_) {
+            observer->UpdateCounter(counter_);
         }
     }
 

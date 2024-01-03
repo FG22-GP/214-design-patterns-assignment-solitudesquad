@@ -91,8 +91,7 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
     SetupScreen();
 
     //My observer to check how many clicks
-    KukiClickerModel *ccSubject = new KukiClickerModel;
-    Observer *observer = new Observer(*ccSubject);
+    Observer *observer = new Observer(cc);
 
     
     // load font
@@ -115,8 +114,7 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
     //Get rid of old loaded surface
     SDL_FreeSurface(loadedKukiSurpriseSurface);
 
-    int kukiPoint = 0;
-    std::string kukiPointText = std::to_string(kukiPoint);
+    std::string kukiPointText = std::to_string(0);
 
     
     SDL_Event e;
@@ -137,12 +135,11 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
         // std::cout << "DeltaTime: " << GetDeltaTime(deltaTime) << std::endl;
         while (SDL_PollEvent(&e))
         {
-            controller.ClickEvent(e, quit, cc, ccSubject, renderer, kukiSurprise);
-            
-            textTexture = OnCounterChanged(controller, cc, kukiPoint,
+            controller.ClickEvent(e, quit, cc, renderer, kukiSurprise);
+            textTexture = OnCounterChanged(controller, cc, cc.GetCounter(),
                 kukiPointText, font, textColor, textSurface, textTexture);
 
-            kukiSurprise = OnSwapImage(ccSubject, kukiPissedOff, kukiSurprise);
+            kukiSurprise = OnSwapImage(&cc, kukiPissedOff, kukiSurprise);
         }
         
         RenderOnScreen(renderer, textTexture, kukiSurprise);
@@ -169,15 +166,20 @@ void View::RunGame(KukiClickerModel& cc, Controller& controller)
     observer->RemoveMeFromTheList();
     
     delete observer;
-    delete ccSubject;
-
 }
 
+// This should be Subject::CountChanged()
+// That way, the textSurface would only be generated
+// When the Model notifies us (a.k.a. the View, the Observer)
+// That the number of cookies has changed
+// Instead of the View invoking OnCounterChanged in every frame of the main loop
+// Make View inherit from Observer
+// Then override CountChanged()
+// And put the code from this method in there
 SDL_Texture* View::OnCounterChanged(Controller& controller, KukiClickerModel& cc 
     ,int kukiPoint, std::string kukiPointText, TTF_Font* font, const SDL_Color textColor
     ,SDL_Surface* textSurface, SDL_Texture* textTexture)
 {
-    kukiPoint = controller.GetKukiPoint(cc);
     kukiPointText = std::to_string(kukiPoint);
     textSurface = TTF_RenderText_Solid(font, kukiPointText.c_str(), textColor);
     return textTexture = SDL_CreateTextureFromSurface(renderer, textSurface); 

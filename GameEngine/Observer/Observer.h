@@ -13,8 +13,10 @@ public:
 
     void UpdateCounter(const int& counterValue) override
     {
+        printf("Creating new Text\n");
         counter_from_CC_ = counterValue;
         // PrintCounter();
+        // Generate new Text Texture here
     }
     
     void RemoveMeFromTheList()

@@ -3,19 +3,9 @@
 #include "../View/View.h"
 
 
-int Controller::GetKukiPoint(const KukiClickerModel& CC) { return CC.kukiPoints; }
-
-int Controller::AddKukiPoint(KukiClickerModel& CC)
-{
-    int CP = GetKukiPoint(CC);
-    CP++;
-    CC.kukiPoints = CP;
-    return CP;
-}
-
 bool Controller::Victory(const KukiClickerModel& CC)
 {
-    const int victoryCP = GetKukiPoint(CC);
+    const int victoryCP = CC.GetCounter();
     return (victoryCP >= CC.victoryAmount);
 }
 
@@ -30,7 +20,7 @@ SDL_Texture* Controller::GetTextTexture() const
     return TextTexture;
 }
 
-void Controller::ClickEvent(SDL_Event& e, bool& quit, KukiClickerModel& cc, KukiClickerModel* ccSubject,
+void Controller::ClickEvent(SDL_Event& e, bool& quit, KukiClickerModel& cc,
     SDL_Renderer* renderer, SDL_Texture* kukiSurprise)
 {
     switch (e.type)
@@ -39,10 +29,8 @@ void Controller::ClickEvent(SDL_Event& e, bool& quit, KukiClickerModel& cc, Kuki
         break;
 
     case SDL_MOUSEBUTTONDOWN:
-        //This is not. But still wanted to keep it.
-        AddKukiPoint(cc);
         //This is the observer pattern
-        ccSubject->IncrementCounter();
+        cc.IncrementCounter();
         break;
             
     case SDL_MOUSEBUTTONUP:

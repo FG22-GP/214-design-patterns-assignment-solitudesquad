@@ -8,9 +8,9 @@ int main(int argc, char* args[])
 {
 	
 	//TODO optimization
-	Controller controller;
-	KukiClickerModel cc;
-	View view;
+	KukiClickerModel cc{};
+	Controller controller{};
+	View view{};
 	
 	view.RunGame(cc, controller);
 
